@@ -1,65 +1,27 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { Constants } from 'expo';
+import { Header } from 'react-native-elements';
+import { createStackNavigator } from 'react-navigation';
 
-import t from 'tcomb-form-native';
+import HomeList from './HomeList';
+import AddMessage from './AddMessage';
 
-const Form = t.form.Form;
+const RootStack = createStackNavigator(
+  {
+    Home: HomeList,
+    AddMessage: AddMessage,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
 
-const Message = t.struct({
-    fist_name: t.String,
-    last_name: t.String,
-    email: t.String,
-    subject: t.String,
-    description: t.String
-});
 
-class FormPage extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            form: {}
-        };
-    }
-
-    handleSubmit = () => {
-        const value = this.form;
-
-        console.log(value);
-    };
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <Form
-                    ref={c => this.form = c}
-                    type={Message}
-                />
-                <Button
-                    title="Add message"
-                    onPress={this.handleSubmit}
-                />
-            </View>
-        );
-    }
-}
-
-export default class App extends React.Component {
+export default class App extends Component {
   render() {
     return (
-      <FormPage />
+      <RootStack />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-      justifyContent: 'center',
-      marginTop: 70,
-      margin: 20,
-      padding: 20,
-      backgroundColor: '#ffffff',
-      borderWidth: 1,
-      borderColor: '#000',
-      borderRadius: 20
-  },
-});
